@@ -75,13 +75,26 @@ namespace ConectandoBD
                     Nombre = "Elena"
                 };
 
-                SqlDataReader results = business.GetUsuarioByFilter(filter);
-                if(results != null)
+                EjecutamosReaderYGeneramosException(business, filter);
+                EjecutamosReader(business, filter);
+            }
+        }
+
+        private static void EjecutamosReader(EmpleadoBusiness business, EmpleadoFilter filter)
+        {
+            business.GetUsuarioByFilterLayendoConreader(filter);
+        }
+
+        private static void EjecutamosReaderYGeneramosException(EmpleadoBusiness business, EmpleadoFilter filter)
+        {
+            SqlDataReader results = business.GetUsuarioByFilter(filter);
+
+            //lo siguiente debería fallar
+            if (results != null)
+            {
+                while (results.Read())
                 {
-                    while (results.Read())
-                    {
-                        Console.WriteLine($"| { results.GetString(0) } | { results.GetString(1) } | { results.GetDateTime(2) } |");
-                    }
+                    Console.WriteLine($"| { results.GetString(0) } | { results.GetString(1) } | { results.GetDateTime(2) } |");
                 }
             }
         }
@@ -117,7 +130,6 @@ namespace ConectandoBD
             using (EmpleadoBusiness business = new EmpleadoBusiness())
             {
                 business.AbrirConexion();
-                Console.WriteLine("Esto se debería leer entre que abro y cierro la conexión a BD");
             }
         }
 

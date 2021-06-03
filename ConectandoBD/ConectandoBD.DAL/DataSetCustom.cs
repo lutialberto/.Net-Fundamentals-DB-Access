@@ -20,15 +20,5 @@ namespace ConectandoBD.DAL
             adapter.Fill(empleadosDS);
             return empleadosDS;
         }
-
-        public DataSet Update()
-        {
-            DataSet empleadosDS = new DataSet();
-            adapter.Fill(empleadosDS);
-
-            adapter.Update(empleadosDS);
-            return empleadosDS;
-        }
-
     }
 }
